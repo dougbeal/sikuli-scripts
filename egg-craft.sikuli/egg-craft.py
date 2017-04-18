@@ -45,7 +45,7 @@ if exists(equ_sel, 0):
   print "equipment select screen"
 else:
   print "not found"
-  screen.capture().save(tmpdir, "not_found_screen_eql_sel.png")
+  screen.capture().save(tmpdir, equ_sel + "-not_found.png")
 
 # gsearch = "1492317040556.png" # to detect home screen
 # img = "1492317073966.png" # an icon to tap
