@@ -1,0 +1,136 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>egg-craft.sikuli</h2> <a href="egg-craft.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> org.sikuli.android <span class="kw">import</span> ADBScreen
+<span class="kw">from</span> org.sikuli.android <span class="kw">import</span> ADBDevice
+<span class="kw">from</span> pprint <span class="kw">import</span> pprint <span class="kw">as</span> pp
+
+imgdir = os.path.join(getBundlePath(), <span class="str">".."</span>, <span class="str">"img"</span>, <span class="str">"craft"</span>)
+tmpdir = os.path.join(getBundlePath(), <span class="str">"tmp"</span>)
+<span class="kw">if</span> <span class="kw">not</span> os.path.exists(tmpdir):
+  os.mkdir(tmpdir)
+<span class="cmt">#print imgdir</span>
+<span class="cmt">#pp( os.listdir(imgdir) )</span>
+addImagePath(imgdir)
+
+complete = <img src="craft-complete.png" />
+yes = <img src="craft-craft-yes.png" />
+craft = <img src="craft-craft.png" />
+empty = <img src="craft-empty-slot.png" />
+equ_acc_sel = <img src="craft-equipment-accessory-sel.png" />
+equ_acc_unsel = <img src="craft-equipment-accessory-unsel.png" />
+equ_sel = <img src="craft-equipment-sel.png" />
+equ_unsel = <img src="craft-equipment-unsel.png" />
+
+choco_egg = <img src="craft-equipment-accessory-choc-egg.png" />
+great_egg = <img src="craft-equipment-accessory-great-egg.png" />
+
+Debug.on(<span class="dig">3</span>)
+
+screen = ADBScreen.start() <span class="cmt"># get the one attached device</span>
+<span class="kw">if</span> <span class="kw">not</span> screen:
+  exit(<span class="dig">1</span>)
+
+dev = screen.getDevice()
+use(screen) <span class="cmt"># set as the default region  </span>
+<span class="cmt">#img = screen.capture()</span>
+<span class="cmt">#img.save(tmpdir)</span>
+<span class="cmt">#wait(1)</span>
+<span class="cmt">#screen.capture()</span>
+<span class="cmt">#wait(1)</span>
+<span class="cmt">#screen.capture()</span>
+
+<span class="cmt">#img = screen.capture()</span>
+<span class="cmt">#print img</span>
+<span class="cmt">#img.save("screen.png", )</span>
+<span class="kw">if</span> exists(equ_sel, <span class="dig">0</span>):
+  <span class="kw">print</span> <span class="str">"equipment select screen"</span>
+<span class="kw">else</span>:
+  <span class="kw">print</span> <span class="str">"not found"</span>
+  screen.<span class="skw">capture</span>().save(tmpdir, <img src="not_found_screen_eql_sel.png" />)
+
+<span class="cmt"># gsearch = "1492317040556.png" # to detect home screen</span>
+<span class="cmt"># img = "1492317073966.png" # an icon to tap</span>
+
+<span class="cmt"># top = newRegion(Location(0, 0), 300, 300) # top left corner</span>
+<span class="cmt"># iconRow = newRegion(Location(0, 600), 1200, 300) # an icon band</span>
+<span class="cmt"># dev.printDump("input")</span>
+<span class="cmt"># for i in range(3): # just do it 3 times </span>
+<span class="cmt">#   screen.aKey(ADBDevice.KEY_HOME) # tap the home button</span>
+<span class="cmt">#   screen.wait(gsearch, 10) # wait for home screen</span>
+<span class="cmt">#   screen.click(img) # click icon</span>
+<span class="cmt">#   wait(5) # to give time to the triggered action to process</span>
+
+</pre>
+</body>
+</html>

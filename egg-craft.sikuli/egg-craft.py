@@ -1,7 +1,16 @@
+from sikuli import *
 from org.sikuli.android import ADBScreen
 from org.sikuli.android import ADBDevice
+from pprint import pprint as pp
 
-imgdir = "img/craft"
+imgdir = os.path.join(getBundlePath(), "..", "img", "craft")
+tmpdir = os.path.join(getBundlePath(), "tmp")
+if not os.path.exists(tmpdir):
+  os.mkdir(tmpdir) 
+#print imgdir
+#pp( os.listdir(imgdir) )
+addImagePath(imgdir)
+
 complete = "craft-complete.png"
 yes = "craft-craft-yes.png"
 craft = "craft-craft.png"
@@ -22,12 +31,21 @@ if not screen:
 
 dev = screen.getDevice()
 use(screen) # set as the default region  
+#img = screen.capture()
+#img.save(tmpdir)
+#wait(1)
+#screen.capture()
+#wait(1)
+#screen.capture()
 
-img = screen.capture()
-
-match = img.find(equ_sel)
-
-print match.getScore()
+#img = screen.capture()
+#print img
+#img.save("screen.png", )
+if exists(equ_sel, 0):
+  print "equipment select screen"
+else:
+  print "not found"
+  screen.capture().save(tmpdir, "not_found_screen_eql_sel.png")
 
 # gsearch = "1492317040556.png" # to detect home screen
 # img = "1492317073966.png" # an icon to tap
