@@ -1,1 +1,29 @@
-{"desktop-ffbe-icon-page-1-pageselect": {"h": 22, "source": "desktop-ffbe-icon-page-1", "filename": "C:\\Users\\dougbeal\\Documents\\git\\sikuli-scripts\\create-img-dict.sikuli\\..\\img\\base\\desktop-ffbe-icon-page-1-pageselect.png", "source_filename": "C:\\Users\\dougbeal\\Documents\\git\\sikuli-scripts\\create-img-dict.sikuli\\..\\img\\base\\desktop-ffbe-icon-page-1.png", "w": 34, "x": 344, "y": 1096}, "ffbe-startscreen-tap": {"h": 46, "source": "ffbe-startscreen", "filename": "C:\\Users\\dougbeal\\Documents\\git\\sikuli-scripts\\create-img-dict.sikuli\\..\\img\\base\\ffbe-startscreen-tap.png", "source_filename": "C:\\Users\\dougbeal\\Documents\\git\\sikuli-scripts\\create-img-dict.sikuli\\..\\img\\base\\ffbe-startscreen.png", "w": 332, "x": 191, "y": 980}, "desktop-ffbe-icon-page-1-icon": {"h": 66, "source": "desktop-ffbe-icon-page-1", "filename": "C:\\Users\\dougbeal\\Documents\\git\\sikuli-scripts\\create-img-dict.sikuli\\..\\img\\base\\desktop-ffbe-icon-page-1-icon.png", "source_filename": "C:\\Users\\dougbeal\\Documents\\git\\sikuli-scripts\\create-img-dict.sikuli\\..\\img\\base\\desktop-ffbe-icon-page-1.png", "w": 64, "x": 329, "y": 671}}
+{
+    "desktop-ffbe-icon-page-1-pageselect": {
+        "h": 22, 
+        "source": "desktop-ffbe-icon-page-1", 
+        "filename": "..\\img\\base\\desktop-ffbe-icon-page-1-pageselect.png", 
+        "source_filename": "..\\img\\base\\desktop-ffbe-icon-page-1.png", 
+        "w": 34, 
+        "x": 344, 
+        "y": 1096
+    }, 
+    "ffbe-startscreen-tap": {
+        "h": 46, 
+        "source": "ffbe-startscreen", 
+        "filename": "..\\img\\base\\ffbe-startscreen-tap.png", 
+        "source_filename": "..\\img\\base\\ffbe-startscreen.png", 
+        "w": 332, 
+        "x": 191, 
+        "y": 980
+    }, 
+    "desktop-ffbe-icon-page-1-icon": {
+        "h": 66, 
+        "source": "desktop-ffbe-icon-page-1", 
+        "filename": "..\\img\\base\\desktop-ffbe-icon-page-1-icon.png", 
+        "source_filename": "..\\img\\base\\desktop-ffbe-icon-page-1.png", 
+        "w": 64, 
+        "x": 329, 
+        "y": 671
+    }
+}
