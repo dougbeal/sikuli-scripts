@@ -1,32 +1,43 @@
-from sikuli import *
+from sikuli import Finder
 from org.sikuli.android import ADBScreen
 from org.sikuli.android import ADBDevice
 from pprint import pprint as pp
 import json
 import fnmatch
+import glob
 
 tmpdir = os.path.join(getBundlePath(), "screencap")
 base_img = os.path.join(getBundlePath(), "../img/base")
-json_file = os.path.join(getBundlePath(), "image-region.json")
-
+json_filename = os.path.join(getBundlePath(), "image-region.json")
+image_dict = {}
 try:
-    json.load(open(json_file, 'w'))
+    json_file = open(json_filename, 'w')
+    image_dict = json.load(json_file)
 except (OSError, IOError) as e:
     print "json file doesn't exist yet."
 
 Debug.on(3)    
-filenames = os.listdir(base_img)
+filenames = glob.glob(os.path.join(base_img, "*.png"))
+print  "{} files found".format(len(filenames))
 for filename in filenames:
-    basename = os.path.basename(filename)
-    Finder f = None
-    for section in fnmatch.filter(filenames, basename + "*"):
+    basename = os.path.splitext(os.path.basename(filename))[0]
+    finder = None
+    sections = list(name for name in filenames if filename is not name and os.path.splitext(os.path.basename(name))[0].startswith(basename))
+    print sections
+    for section in sections:
+        print "section " + section
         if finder is None:
-            finder = Finder(os.path.join(base_img, basename))
-        image = os.path.join(base_img, section)
-        print "matching %s in %s" % section, filename
+            finder = Finder(filename)
+        print "matching {} in {}".format(section, filename)
         # match section in filename
-        matches = [m for m in finder.findAll(image) ]
+        finder.findAll(section)
+        matches = sorted((m for m in finder), key=lambda m:m.getScore())
+        
+        #pp(matches)
         pp([m.toString() for m in matches])
         # add to dict
     if finder is not None:
         finder.destroy() # release the natives
+    break
+
+json.dump(image_dict, json_file)

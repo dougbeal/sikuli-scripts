@@ -1,0 +1,118 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>create-img-dict.sikuli</h2> <a href="create-img-dict.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> sikuli <span class="kw">import</span> Finder
+<span class="kw">from</span> org.sikuli.android <span class="kw">import</span> ADBScreen
+<span class="kw">from</span> org.sikuli.android <span class="kw">import</span> ADBDevice
+<span class="kw">from</span> pprint <span class="kw">import</span> pprint <span class="kw">as</span> pp
+<span class="kw">import</span> json
+<span class="kw">import</span> fnmatch
+<span class="kw">import</span> glob
+
+tmpdir = os.path.join(getBundlePath(), <span class="str">"screencap"</span>)
+base_img = os.path.join(getBundlePath(), <span class="str">"../img/base"</span>)
+json_filename = os.path.join(getBundlePath(), <span class="str">"image-region.json"</span>)
+image_dict = {}
+<span class="kw">try</span>:
+    json_file = open(json_filename, <span class="str">'w'</span>)
+    image_dict = json.load(json_file)
+<span class="kw">except</span> (OSError, IOError) <span class="kw">as</span> e:
+    <span class="kw">print</span> <span class="str">"json file doesn't exist yet."</span>
+
+Debug.on(<span class="dig">3</span>)
+filenames = glob.glob(os.path.join(base_img, <img src="*.png" />))
+<span class="kw">print</span>  <span class="str">"{} files found"</span>.format(len(filenames))
+<span class="kw">for</span> filename <span class="kw">in</span> filenames:
+    basename = os.path.splitext(os.path.basename(filename))[<span class="dig">0</span>]
+    finder = None
+    sections = list(name <span class="kw">for</span> name <span class="kw">in</span> filenames <span class="kw">if</span> filename <span class="kw">is</span> <span class="kw">not</span> name <span class="kw">and</span> os.path.splitext(os.path.basename(name))[<span class="dig">0</span>].startswith(basename))
+    <span class="kw">print</span> sections
+    <span class="kw">for</span> section <span class="kw">in</span> sections:
+        <span class="kw">print</span> <span class="str">"section "</span> + section
+        <span class="kw">if</span> finder <span class="kw">is</span> None:
+            finder = Finder(filename)
+        <span class="kw">print</span> <span class="str">"matching {} in {}"</span>.format(section, filename)
+        <span class="cmt"># match section in filename</span>
+        finder.findAll(section)
+        matches = sorted((m <span class="kw">for</span> m <span class="kw">in</span> finder), key=<span class="kw">lambda</span> m:m.getScore())
+
+        <span class="cmt">#pp(matches)</span>
+        pp([m.toString() <span class="kw">for</span> m <span class="kw">in</span> matches])
+        <span class="cmt"># add to dict</span>
+    <span class="kw">if</span> finder <span class="kw">is</span> <span class="kw">not</span> None:
+        finder.destroy() <span class="cmt"># release the natives</span>
+    <span class="kw">break</span>
+
+json.dump(image_dict, json_file)
+</pre>
+</body>
+</html>
