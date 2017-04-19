@@ -4,7 +4,7 @@ from org.sikuli.android import ADBDevice
 from pprint import pprint as pp
 import json
 from glob import glob
-from os.path import join, splitext, basename
+from os.path import join, splitext, basename, relpath
 
 tmpdir = join(getBundlePath(), "screencap")
 base_img = join(getBundlePath(), "..", "img", "base")
@@ -53,8 +53,8 @@ for image_filename in image_filenames:
             m = matches[0]
             name = splitext(basename(cropped_image))[0] 
             image_dict[name] = { 
-                    'filename': cropped_image,
-                    'source_filename': image_filename,
+                    'filename': relpath(cropped_image, getBundlePath()),
+                    'source_filename': relpath(image_filename, getBundlePath()),
                     'source': image_basename,
                     'x': m.getX(),
                     'y': m.getY(),
@@ -69,4 +69,4 @@ for image_filename in image_filenames:
         finder.destroy() # release the natives
 
 pp(image_dict)
-json.dump(image_dict, json_file)
+json.dump(image_dict, json_file, indent=4)
