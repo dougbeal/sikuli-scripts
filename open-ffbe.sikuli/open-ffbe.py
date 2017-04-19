@@ -10,7 +10,7 @@ Debug.on(3)
 
 if not bundle_path in sys.path: sys.path.append(bundle_path)
 
-from ffbe-util import ffbe as ffbe
+import ffbeutil as ffbe
 
 
 screen = ADBScreen.start() # get the one attached device
@@ -21,9 +21,12 @@ dev = screen.getDevice()
 use(screen) # set as the default region  
 
 
-order = ['desktop-ffbe-icon-page-1-icon', 'ffbe-startscreen-tap']
+order = ["desktop-ffbe-icon-page-1-icon", "ffbe-startscreen-tap"]
 
 for image in order:
     target = ffbe.crops[image]
-    if exists(target.filename, target.getRegion()):
+    #reg = Finder(screen.capture(target.getRegion()))
+    if screen.exists(target.filename, 0):
         tap(target.getRegion().center())
+    else:
+        screen.capture().save(tmpdir, "missing-" + target.name)
