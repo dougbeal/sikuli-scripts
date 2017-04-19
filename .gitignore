@@ -87,3 +87,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+*.DS_Store
+*/tmp/sikuliximage-*.png
+screen-record.sikuli/screencap/sikuliximage-*.png
+.smbdelete*
