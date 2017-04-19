@@ -22,24 +22,24 @@ if json_file is None:
     exit(-1)
 
 Debug.on(3)    
-filenames = glob(join(base_img, "*.png"))
-print  "{} files found".format(len(filenames))
-for filename in filenames:
-    basename = splitext(basename(filename))[0]
+image_filenames = glob(join(base_img, "*.png"))
+print  "{} files found".format(len(image_filenames))
+for image_filename in image_filenames:
+    image_basename = splitext(basename(image_filename))[0]
     finder = None
     cropped_images = []
-    for crop_filename in filenames:
+    for crop_filename in image_filenames:
         crop_basename = splitext(basename(crop_filename))[0]
-        if filename is not crop_filename and crop_basename.startswith(basename):
+        if image_filename is not crop_filename and crop_basename.startswith(image_basename):
             cropped_images.append(crop_basename)
         
     print cropped_images
     for cropped_image in cropped_images:
         print "cropped_image " + cropped_image
         if finder is None:
-            finder = Finder(filename)
-        print "matching {} in {}".format(cropped_image, filename)
-        # match cropped_image in filename
+            finder = Finder(image_filename)
+        print "matching {} in {}".format(cropped_image, image_filename)
+        # match cropped_image in image_filename
         finder.findAll(cropped_image)
         matches = sorted((m for m in finder), key=lambda m:m.getScore())
         
