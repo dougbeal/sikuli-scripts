@@ -2,12 +2,16 @@ from sikuli import *
 from org.sikuli.android import ADBScreen
 from org.sikuli.android import ADBDevice
 from pprint import pprint as pp
-tmpdir = os.path.join(getBundlePath(), "screencap")
+bundle_path = getBundlePath()
+tmpdir = os.path.join(bundle_path, "screencap")
 if not os.path.exists(tmpdir):
     os.mkdir(tmpdir) 
 Debug.on(3)
 
-from .. import ffbe
+if not bundle_path in sys.path: sys.path.append(bundle_path)
+
+from ffbe-util import ffbe as ffbe
+
 
 screen = ADBScreen.start() # get the one attached device
 if not screen:
