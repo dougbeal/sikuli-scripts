@@ -7,7 +7,7 @@ from glob import glob
 from os.path import join, splitext, basename
 
 tmpdir = join(getBundlePath(), "screencap")
-base_img = join(getBundlePath(), "../img/base")
+base_img = join(getBundlePath(), "..", "img", "base")
 json_filename = join(getBundlePath(), "image-region.json")
 image_dict = {}
 json_file = None
@@ -30,8 +30,12 @@ for image_filename in image_filenames:
     cropped_images = []
     for crop_filename in image_filenames:
         crop_basename = splitext(basename(crop_filename))[0]
-        if image_filename is not crop_filename and crop_basename.startswith(image_basename):
-            cropped_images.append(crop_basename)
+       # print "crp {} vs img {}".format(crop_basename, image_basename)
+        if image_filename is not crop_filename:
+            if crop_basename.startswith(image_basename):
+                #print "base match"
+                cropped_images.append(crop_filename)
+  
         
     print cropped_images
     for cropped_image in cropped_images:
@@ -41,14 +45,28 @@ for image_filename in image_filenames:
         print "matching {} in {}".format(cropped_image, image_filename)
         # match cropped_image in image_filename
         finder.findAll(cropped_image)
-        matches = sorted((m for m in finder), key=lambda m:m.getScore())
         
-        #pp(matches)
-        pp([m.toString() for m in matches])
-        # add to dict
+        matches = sorted((m for m in finder), key=lambda m:m.getScore())
+        l = len(matches)   
+        print "found {} matches".format(l)
+        if l == 1:
+            m = matches[0]
+            name = splitext(basename(cropped_image))[0] 
+            image_dict[name] = { 
+                    'filename': cropped_image,
+                    'source_filename': image_filename,
+                    'source': image_basename,
+                    'x': m.getX(),
+                    'y': m.getY(),
+                    'w': m.getW(),
+                    'h': m.getH()
+                    }
+        elif l > 1:
+            print "ERROR: multiple matches"
+        
+       
     if finder is not None:
         finder.destroy() # release the natives
-    break
 
-
+pp(image_dict)
 json.dump(image_dict, json_file)

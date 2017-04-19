@@ -75,43 +75,72 @@
 <span class="kw">from</span> org.sikuli.android <span class="kw">import</span> ADBDevice
 <span class="kw">from</span> pprint <span class="kw">import</span> pprint <span class="kw">as</span> pp
 <span class="kw">import</span> json
-<span class="kw">import</span> fnmatch
-<span class="kw">import</span> glob
+<span class="kw">from</span> glob <span class="kw">import</span> glob
+<span class="kw">from</span> os.path <span class="kw">import</span> join, splitext, basename
 
-tmpdir = os.path.join(getBundlePath(), <span class="str">"screencap"</span>)
-base_img = os.path.join(getBundlePath(), <span class="str">"../img/base"</span>)
-json_filename = os.path.join(getBundlePath(), <span class="str">"image-region.json"</span>)
+tmpdir = join(getBundlePath(), <span class="str">"screencap"</span>)
+base_img = join(getBundlePath(), <span class="str">".."</span>, <span class="str">"img"</span>, <span class="str">"base"</span>)
+json_filename = join(getBundlePath(), <span class="str">"image-region.json"</span>)
 image_dict = {}
+json_file = None
 <span class="kw">try</span>:
     json_file = open(json_filename, <span class="str">'w'</span>)
     image_dict = json.load(json_file)
 <span class="kw">except</span> (OSError, IOError) <span class="kw">as</span> e:
     <span class="kw">print</span> <span class="str">"json file doesn't exist yet."</span>
 
-Debug.on(<span class="dig">3</span>)
-filenames = glob.glob(os.path.join(base_img, <img src="*.png" />))
-<span class="kw">print</span>  <span class="str">"{} files found"</span>.format(len(filenames))
-<span class="kw">for</span> filename <span class="kw">in</span> filenames:
-    basename = os.path.splitext(os.path.basename(filename))[<span class="dig">0</span>]
-    finder = None
-    sections = list(name <span class="kw">for</span> name <span class="kw">in</span> filenames <span class="kw">if</span> filename <span class="kw">is</span> <span class="kw">not</span> name <span class="kw">and</span> os.path.splitext(os.path.basename(name))[<span class="dig">0</span>].startswith(basename))
-    <span class="kw">print</span> sections
-    <span class="kw">for</span> section <span class="kw">in</span> sections:
-        <span class="kw">print</span> <span class="str">"section "</span> + section
-        <span class="kw">if</span> finder <span class="kw">is</span> None:
-            finder = Finder(filename)
-        <span class="kw">print</span> <span class="str">"matching {} in {}"</span>.format(section, filename)
-        <span class="cmt"># match section in filename</span>
-        finder.findAll(section)
-        matches = sorted((m <span class="kw">for</span> m <span class="kw">in</span> finder), key=<span class="kw">lambda</span> m:m.getScore())
+<span class="kw">if</span> json_file <span class="kw">is</span> None:
+    <span class="kw">print</span> <span class="str">"ERROR: failed to open json_file {}"</span>.format(json_filename)
+    exit(-<span class="dig">1</span>)
 
-        <span class="cmt">#pp(matches)</span>
-        pp([m.toString() <span class="kw">for</span> m <span class="kw">in</span> matches])
-        <span class="cmt"># add to dict</span>
+Debug.on(<span class="dig">3</span>)
+image_filenames = glob(join(base_img, <img src="*.png" />))
+<span class="kw">print</span>  <span class="str">"{} files found"</span>.format(len(image_filenames))
+<span class="kw">for</span> image_filename <span class="kw">in</span> image_filenames:
+    image_basename = splitext(basename(image_filename))[<span class="dig">0</span>]
+    finder = None
+    cropped_images = []
+    <span class="kw">for</span> crop_filename <span class="kw">in</span> image_filenames:
+        crop_basename = splitext(basename(crop_filename))[<span class="dig">0</span>]
+       <span class="cmt"># print "crp {} vs img {}".format(crop_basename, image_basename)</span>
+        <span class="kw">if</span> image_filename <span class="kw">is</span> <span class="kw">not</span> crop_filename:
+            <span class="kw">if</span> crop_basename.startswith(image_basename):
+                <span class="cmt">#print "base match"</span>
+                cropped_images.append(crop_filename)
+
+
+    <span class="kw">print</span> cropped_images
+    <span class="kw">for</span> cropped_image <span class="kw">in</span> cropped_images:
+        <span class="kw">print</span> <span class="str">"cropped_image "</span> + cropped_image
+        <span class="kw">if</span> finder <span class="kw">is</span> None:
+            finder = Finder(image_filename)
+        <span class="kw">print</span> <span class="str">"matching {} in {}"</span>.format(cropped_image, image_filename)
+        <span class="cmt"># match cropped_image in image_filename</span>
+        finder.findAll(cropped_image)
+
+        matches = sorted((m <span class="kw">for</span> m <span class="kw">in</span> finder), key=<span class="kw">lambda</span> m:m.getScore())
+        l = len(matches)
+        <span class="kw">print</span> <span class="str">"found {} matches"</span>.format(l)
+        <span class="kw">if</span> l == <span class="dig">1</span>:
+            m = matches[<span class="dig">0</span>]
+            name = splitext(basename(cropped_image))[<span class="dig">0</span>]
+            image_dict[name] = {
+                    <span class="str">'filename'</span>: cropped_image,
+                    <span class="str">'source_filename'</span>: image_filename,
+                    <span class="str">'source'</span>: image_basename,
+                    <span class="str">'x'</span>: m.getX(),
+                    <span class="str">'y'</span>: m.getY(),
+                    <span class="str">'w'</span>: m.getW(),
+                    <span class="str">'h'</span>: m.getH()
+                    }
+        <span class="kw">elif</span> l &gt; <span class="dig">1</span>:
+            <span class="kw">print</span> <span class="str">"ERROR: multiple matches"</span>
+
+
     <span class="kw">if</span> finder <span class="kw">is</span> <span class="kw">not</span> None:
         finder.destroy() <span class="cmt"># release the natives</span>
-    <span class="kw">break</span>
 
+pp(image_dict)
 json.dump(image_dict, json_file)
 </pre>
 </body>
