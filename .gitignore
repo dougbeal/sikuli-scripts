@@ -91,3 +91,4 @@ ENV/
 */tmp/sikuliximage-*.png
 screen-record.sikuli/screencap/sikuliximage-*.png
 .smbdelete*
+*/tmp/*not_found*.png
