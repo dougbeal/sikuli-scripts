@@ -27,8 +27,9 @@ for image in order:
     target = ffbe.crops[image]
     print dir(target)
     reg = target.getRegion()
-    if screen.newRegion(reg.grow(10)).exists(target.filename, 0):
-        loc = reg.getCenter()
+    sreg = reg.grow(10)
+    if screen.newRegion(sreg.getTopLeft(), sreg.getW(), sreg.getH() ).exists(target.filename, 0):
+        loc = reg.getCenter() 
         print loc
         dev.tap(loc.getX(), loc.getY())
     else:
