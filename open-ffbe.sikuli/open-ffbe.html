@@ -97,9 +97,12 @@ order = [<span class="str">"desktop-ffbe-icon-page-1-icon"</span>, <span class="
 
 <span class="kw">for</span> image <span class="kw">in</span> order:
     target = ffbe.crops[image]
+    <span class="kw">print</span> dir(target)
     <span class="cmt">#reg = Finder(screen.capture(target.getRegion()))</span>
     <span class="kw">if</span> screen.exists(target.filename, <span class="dig">0</span>):
-        tap(target.getRegion().center())
+        loc = target.getRegion().getCenter()
+        <span class="kw">print</span> dir(loc)
+        dev.tap(loc.getX(), loc.getY())
     <span class="kw">else</span>:
         screen.<span class="skw">capture</span>().save(tmpdir, <span class="str">"missing-"</span> + target.name)
 </pre>

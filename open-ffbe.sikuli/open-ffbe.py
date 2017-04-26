@@ -25,8 +25,11 @@ order = ["desktop-ffbe-icon-page-1-icon", "ffbe-startscreen-tap"]
 
 for image in order:
     target = ffbe.crops[image]
+    print dir(target)
     #reg = Finder(screen.capture(target.getRegion()))
     if screen.exists(target.filename, 0):
-        tap(target.getRegion().center())
+        loc = target.getRegion().getCenter()
+        print dir(loc)
+        dev.tap(loc.getX(), loc.getY())
     else:
         screen.capture().save(tmpdir, "missing-" + target.name)
