@@ -93,3 +93,5 @@ screen-record.sikuli/screencap/sikuliximage-*.png
 .smbdelete*
 */tmp/*not_found*.png
 open-ffbe.sikuli/screencap/missing-*.png
+bot-desktop.sikuli/autocapture/*
+*~
