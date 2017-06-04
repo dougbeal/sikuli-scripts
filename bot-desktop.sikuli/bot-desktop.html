@@ -1,0 +1,202 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>bot-desktop.sikuli</h2> <a href="bot-desktop.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+bundle_path = getBundlePath()
+tmpdir = os.path.join(bundle_path, <span class="str">"autocapture"</span>)
+<span class="kw">if</span> <span class="kw">not</span> os.path.exists(tmpdir):
+    os.mkdir(tmpdir)
+
+tap_to_start_screen = <img src="1496527514315.png" />
+help = <img src="1496465082667.png" />
+arena = <img src="1496517894613.png" />
+arena2 = <img src="arena2.png" />
+world_icon = <img src="world_icon.png" />
+vortex_icon = <img src="vortex_icon.png" />
+
+map_vortex = <img src="map_vortex.png" />
+map_grandshelt = <img src="map_grandshelt.png" />
+map_grandshelt_map_grandshelt_isles = <img src="map_grandshelt_map_grandshelt_isles.png" />
+map_gi_ordol_port = <img src="map_gi_ordol_port.png" />
+map_gi_earth_shrine = <img src="map_gi_earth_shrine.png" />
+earth_shrine_entrance = <img src="earth_shrine_entrance.png" />
+earth_shrine_exit = <img src="earth_shrine_exit.png" />
+
+screen = Screen()
+<span class="cmt">#print switchApp("MEmu App Player")</span>
+app = switchApp(<span class="str">"FFBESnark"</span>)
+app.focus()
+reg = app.focusedWindow()
+<span class="kw">print</span> reg
+<span class="cmt">#reg.highlight(10)</span>
+
+<span class="cmt"># topLeft = find("1496518701262.png")</span>
+<span class="cmt"># bottomRight = find("1496518729383.png")</span>
+<span class="cmt"># reg = Region( topLeft.x, topLeft.y,</span>
+<span class="cmt">#         bottomRight.x - topLeft.x + bottomRight.w +10,</span>
+<span class="cmt">#         bottomRight.y - topLeft.y + bottomRight.h +10</span>
+<span class="cmt">#         # )</span>
+<span class="cmt"># # reg.highlight(1)</span>
+<span class="cmt"># # print topLeft, bottomRight, reg</span>
+
+state_login = <img src="state_login.png" />
+state_login_ok = <img src="state_login_ok.png" />
+back_button = <img src="1496519298720.png" />
+arena_setup = <img src="1496519329070.png" />
+arena_has_orb = <img src="1496519345959.png" />
+arena_rules_ok = <img src="arena_rules_ok.png" />
+arena_opponent_row = <img src="arena_opponent_row.png" />
+
+adventure_next = <img src="adventure_next.png" />
+adventure_select_friend_page = <img src="adventure_select_friend_page.png" />
+adventure_party_select_page = <img src="adventure_party_select_page.png" />
+
+homescreen = <img src="1496519783253.png" />
+arena_page = <img src="arena_page.png" />
+interstitial_page = <img src="interstitial_page.png" />
+interstitial_loading = <img src="interstitial_loading.png" />
+raid_event = <img src="raid_event.png" />
+raid_event_has_orb = <img src="raid_event_has_orb.png" />
+
+
+<span class="cmt"># units</span>
+combat_group_top = <img src="combat_group_top.png" />
+combat_group_bottom = <img src="combat_group_bottom.png" />
+combat_group_sword_icon = <img src="combat_unit_sword_icon.png" />
+combat_unit_lb_low = <img src="combat_unit_lb_low.png" />
+combat_unit_esp_low = <img src="combat_unit_esp_low.png" />
+combat_unit_right_of_icon = <img src="combat_unit_left_of_icon.png" />
+combat_unit_scroll_area = <img src="combat_unit_scroll_bar.png" />
+
+<span class="kw">def</span> waitForNextPage(nextPage):
+    <span class="kw">print</span> <span class="str">"waiting for interstitial page to go away"</span>
+    reg.highlight(<span class="dig">1</span>)
+    <span class="kw">if</span> <span class="kw">not</span> reg.waitVanish(interstitial_page, FOREVER):
+        <span class="kw">print</span> <span class="str">"timed out waiting for interstitial page to go away"</span>
+    reg.highlight(<span class="dig">1</span>)
+    <span class="kw">if</span> <span class="kw">not</span> reg.<span class="skw">wait</span>(nextPage, <span class="dig">2.0</span>):
+        <span class="kw">print</span> <span class="str">"faild to find next page"</span>
+ABILITIES = <span class="str">'save party abilities'</span>
+ARENA = <span class="str">'arena'</span>
+RAID = <span class="str">'raid'</span>
+options = (ABILITIES, ARENA, RAID)
+selection = select(<span class="str">"What do you want to do?"</span>, options = options, default = ABILITIES)
+
+<span class="kw">print</span> selection
+<span class="kw">if</span> selection == ABILITIES:
+    unit_swords = reg.findAll(combat_group_sword_icon)
+    unit_swords_s = sorted(unit_swords, key=<span class="kw">lambda</span> t: t.y)
+    <span class="kw">print</span> <span class="str">"found %i units"</span> % len(unit_swords_s)
+<span class="kw">elif</span> selection == ARENA:
+    <span class="kw">if</span> reg.exists(homescreen, <span class="dig">0.001</span> ):
+        <span class="kw">print</span> <span class="str">"on homescreen"</span>
+        f = <span class="skw">find</span>(arena2)
+        f.highlight(<span class="dig">1</span>)
+        f.<span class="skw">click</span>()
+        waitForNextPage(arena_page)
+        <span class="kw">if</span> None <span class="kw">is</span> reg.exists(arena_page) <span class="kw">and</span> None <span class="kw">is</span> reg.exists(arena_setup):
+            <span class="kw">print</span> <span class="str">"failed to reach arena"</span>
+            exit
+        <span class="kw">else</span>:
+            <span class="kw">print</span> <span class="str">"in arena"</span>
+            <span class="kw">if</span> reg.exists(arena_has_orb):
+                <span class="kw">print</span> <span class="str">"arena orb ready"</span>
+                reg.<span class="skw">click</span>(arena_setup)
+                reg.<span class="skw">click</span>(arena_rules_ok)
+                opponents = reg.findAll(arena_opponent_row)
+                opponents_y = sorted(opponents, key=<span class="kw">lambda</span> m: m.y)
+                l = len(opponents_y)
+                <span class="kw">print</span> <span class="str">"found %i opponents"</span> % l
+                <span class="kw">if</span> l &gt; <span class="dig">1</span>:
+                    first = opponents_y[<span class="dig">0</span>]
+                    last = opponents_y[-<span class="dig">1</span>]
+                    screen.<span class="skw">capture</span>(first).save(tmpdir, <img src="arena-first.png" />)
+                    <span class="kw">print</span> last.mouseDown(Button.LEFT)
+                    <span class="kw">print</span> last.mouseMove(first)
+                    <span class="kw">print</span> first.mouseUp(Button.LEFT)
+                    screen.<span class="skw">capture</span>(first).save(tmpdir, <img src="arena-first-after-scroll.png" />)
+                    <span class="cmt">#reg.click(first.getTarget())</span>
+    <span class="kw">else</span>:
+        <span class="kw">print</span> <span class="str">"not on homescreen"</span>
+        count = <span class="dig">0</span>
+        <span class="kw">while</span> <span class="kw">not</span> reg.exists(homescreen) <span class="kw">and</span> count &lt; <span class="dig">10</span>:
+            reg.<span class="skw">click</span>(back_button)
+        <span class="kw">print</span> <span class="str">"on homescreen"</span>
+
+<span class="kw">elif</span> selection == RAID:
+    <span class="kw">if</span> reg.exists(raid_event, <span class="dig">0.001</span> ):
+        <span class="kw">if</span> reg.exists(raid_event_has_orb):
+            <span class="kw">print</span> <span class="str">"raid orb ready"</span>
+<span class="kw">else</span>:
+    <span class="kw">print</span> <span class="str">"Uknown selection"</span>
+</pre>
+</body>
+</html>
